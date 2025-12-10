@@ -1,0 +1,49 @@
+services:
+  database:
+    image: mysql:8
+    container_name: db-hospi
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: hospidevops
+    ports:
+      - "3307:3306"
+    networks:
+      - hospi-net
+    volumes:
+      - hospi-data:/var/lib/mysql
+
+  frontend:
+    image: client:hospi-v1
+    container_name: fe-hospi
+    build:
+      context: ./Frontend-Hospital
+    ports:
+      - "80:80"
+    networks:
+      - hospi-net
+
+  backend:
+    image: services:hospiback-v1
+    container_name: be-hospi
+    build:
+      context: ./Back-Hospital
+    environment:
+      SERVER_PORT: 8080
+      DB_URL: jdbc:mysql://database:3306/hospidevops
+      DB_USER: root
+      DB_PASSWORD: root
+      JWT_SECRET: R01VLVBSMFkzQzctU1Q0TVAtMGM1MmZiZDgtMGYxYS00MzliLTkyYWYtMjc4NDYzNzAwNzI4
+    ports:
+      - "8081:8080"
+    networks:
+      - hospi-net
+
+networks:
+  hospi-net:
+    external: true
+  certbot-conf:
+    external: true
+
+volumes:
+  hospi-data:
+    external: true
