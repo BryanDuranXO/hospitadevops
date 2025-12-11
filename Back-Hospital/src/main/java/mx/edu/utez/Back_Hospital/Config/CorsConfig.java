@@ -12,6 +12,7 @@ public class CorsConfig {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
+
                 registry.addMapping("/**")
                         .allowedOrigins("${API_URL}") // o pon el dominio de ngrok si quieres más control
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH");

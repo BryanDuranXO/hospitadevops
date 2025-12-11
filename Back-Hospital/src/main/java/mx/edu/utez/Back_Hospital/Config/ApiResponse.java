@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 @Data
 @NoArgsConstructor
 public class ApiResponse {
+
+
     private Object data;
     private HttpStatus status;
     private String message;
@@ -24,4 +26,6 @@ public class ApiResponse {
         this.message = message;
         this.error = error;
     }
+
+
 }
