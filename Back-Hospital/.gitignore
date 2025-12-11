@@ -4,9 +4,9 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-
-serviceAccountKey.json
+# Ignorar todos los .json
 *.json
+serviceAccountKey.json
 
 ### STS ###
 .apt_generated
@@ -35,3 +35,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# --- Excepciones al final ---
+# Permitir SOLO este JSON de Firebase
+!src/main/resources/firebase/serviceAccountKey.json

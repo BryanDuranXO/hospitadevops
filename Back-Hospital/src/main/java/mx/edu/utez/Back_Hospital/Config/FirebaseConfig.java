@@ -6,6 +6,8 @@ import com.google.firebase.FirebaseOptions;
 import jakarta.annotation.PostConstruct;
 import org.springframework.context.annotation.Configuration;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -14,21 +16,33 @@ public class FirebaseConfig {
 
     @PostConstruct
     public void initialize() throws IOException {
-        try (InputStream serviceAccount =
-                     getClass().getClassLoader().getResourceAsStream("firebase/serviceAccountKey.json")) {
 
-            if (serviceAccount == null) {
-                throw new RuntimeException("No se encontró serviceAccountKey.json");
+        InputStream serviceAccount = null;
+
+        // 1️⃣ Intentar cargar desde resources (modo LOCAL)
+        serviceAccount = getClass().getClassLoader()
+                .getResourceAsStream("firebase/serviceAccountKey.json");
+
+        // 2️⃣ Si no existe (modo DOCKER), cargar desde /app/firebase/
+        if (serviceAccount == null) {
+            File dockerPath = new File("/app/firebase/serviceAccountKey.json");
+            if (dockerPath.exists()) {
+                serviceAccount = new FileInputStream(dockerPath);
             }
+        }
 
-            FirebaseOptions options = FirebaseOptions.builder()
-                    .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-                    .build();
+        // 3️⃣ Si aún así no existe → error real
+        if (serviceAccount == null) {
+            throw new RuntimeException("No se encontró serviceAccountKey.json ni en resources ni en /app/firebase/");
+        }
 
-            if (FirebaseApp.getApps().isEmpty()) {
-                FirebaseApp.initializeApp(options);
-                System.out.println("Firebase inicializado correctamente.");
-            }
+        FirebaseOptions options = FirebaseOptions.builder()
+                .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+                .build();
+
+        if (FirebaseApp.getApps().isEmpty()) {
+            FirebaseApp.initializeApp(options);
+            System.out.println("Firebase inicializado correctamente.");
         }
     }
 }
