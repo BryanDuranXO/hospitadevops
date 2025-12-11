@@ -14,7 +14,7 @@ import java.io.InputStream;
 @Configuration
 public class FirebaseConfig {
 
-    @PostConstruct
+   /* @PostConstruct
     public void initialize() throws IOException {
 
         InputStream serviceAccount = null;
@@ -44,5 +44,5 @@ public class FirebaseConfig {
             FirebaseApp.initializeApp(options);
             System.out.println("Firebase inicializado correctamente.");
         }
-    }
+    }*/
 }
