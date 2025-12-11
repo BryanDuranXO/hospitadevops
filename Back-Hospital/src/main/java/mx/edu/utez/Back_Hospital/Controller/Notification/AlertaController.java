@@ -20,7 +20,7 @@ public class AlertaController {
     public ResponseEntity<?> solicitarAyuda(@RequestBody SolicitarAyudaRequest req) {
         try {
             alertaService.solicitarAyuda(req.getIdPaciente());
-            return ResponseEntity.ok("Solicitud enviada");
+            return ResponseEntity.ok("Solicitud enviadx");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
