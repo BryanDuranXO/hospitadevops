@@ -55,11 +55,7 @@
             <version>42.6.0</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.google.firebase</groupId>
-            <artifactId>firebase-admin</artifactId>
-            <version>9.2.0</version>
-        </dependency>
+
         <!-- INICIO DEPENDENCIAS DE SEGURIDAD -->
 
         <dependency>
